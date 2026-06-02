@@ -13,6 +13,7 @@ class BorrowingController extends Controller
     public function index()
     {
         return Inertia::render('BookBorrowing', [
+            'csrf_token' => csrf_token(),
             'books' => Book::where('stok_avail', '>', 0)->get(),
         ]);
     }
