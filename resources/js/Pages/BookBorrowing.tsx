@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, X, AlertCircle, BookMarked } from "lucide-react";
 import { toast } from "sonner";
 import { router } from "@inertiajs/react";
@@ -25,6 +25,13 @@ export default function BookBorrowing({ books }: BookBorrowingProps) {
   const [isSearching, setIsSearching]     = useState(false);
   const [showDropdown, setShowDropdown]   = useState(false);
   const [isSubmitting, setIsSubmitting]   = useState(false);
+
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("id_buku");
+    if (!id) return;
+    const book = books.find((b) => b.id_buku === id);
+    if (book) setSelectedBooks([book]);
+  }, []);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;

@@ -87,7 +87,7 @@ function BookCarousel({ books, title }: { books: Book[]; title: string }) {
 
 export default function BookDetail({ book, sameAuthor, otherBooks }: BookDetailProps) {
   const handlePinjam = () => {
-    router.visit("/peminjaman-buku");
+    router.visit(`/peminjaman-buku?id_buku=${book.id_buku}`);
   };
 
   const tersedia = book.stok_avail > 0;
