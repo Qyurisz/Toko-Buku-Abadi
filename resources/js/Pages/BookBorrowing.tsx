@@ -86,13 +86,17 @@ export default function BookBorrowing({ books }: BookBorrowingProps) {
 
     setIsSubmitting(true);
 
-    const csrfToken = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content ?? "";
+    const csrfHeaders: Record<string, string> = {};
+    const metaToken = (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content;
+    if (metaToken) csrfHeaders["X-CSRF-TOKEN"] = metaToken;
+    const xsrfCookie = document.cookie.split("; ").find(r => r.startsWith("XSRF-TOKEN="))?.split("=")[1];
+    if (xsrfCookie) csrfHeaders["X-XSRF-TOKEN"] = decodeURIComponent(xsrfCookie);
 
     fetch("/peminjaman-buku", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken,
+        ...csrfHeaders,
       },
       body: JSON.stringify({
         id_buku:         selectedBooks.map((b) => b.id_buku),
