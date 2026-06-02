@@ -159,7 +159,7 @@ export default function BookBorrowing({ books }: BookBorrowingProps) {
                         disabled={isSearching}
                         className="px-4 py-2 bg-[#092148] text-white rounded-lg hover:bg-[#0d2d5e] transition-colors disabled:opacity-70"
                       >
-                        <Search className={`w-5 h-5 ${isSearching ? "animate-spin" : ""}`} />
+                        <Search className={`w-5 h-5`} />
                       </button>
                     </div>
 
