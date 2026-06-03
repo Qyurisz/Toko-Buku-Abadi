@@ -117,18 +117,16 @@ export default function BookBorrowing({
                 lama_peminjaman: durasiNum,
             }),
         })
-            .then((res) => {
-                if (!res.ok) throw new Error();
-                return res.json();
-            })
-            .then(() => {
+            .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+            .then(({ ok, data }) => {
+                if (!ok) throw new Error(data.message ?? "Gagal mengkonfirmasi peminjaman, coba lagi");
                 toast.success("Peminjaman berhasil dikonfirmasi!");
                 setSelectedBooks([]);
                 setLamaPeminjaman("");
                 router.reload();
             })
-            .catch(() => {
-                toast.error("Gagal mengkonfirmasi peminjaman, coba lagi");
+            .catch((err: Error) => {
+                toast.error(err.message || "Gagal mengkonfirmasi peminjaman, coba lagi");
             })
             .finally(() => {
                 setIsSubmitting(false);
